@@ -42,7 +42,7 @@ enum Ranking{
 };
 
 void setColor(unsigned short text);
-int game();
+int game(int game_type);
 int setInterface();
 Ranking checkRank();
 
@@ -59,21 +59,5 @@ public:
 
 };
 
-Player::Player(int idx, int score[15], string name ="Player") {
-    SetPlayer(idx, score, name);
-}
 
-void Player::SetPlayer(int idx, int score[15], string name ) {
-    _idx = idx;
-    if (name == "Player") name += (" " + to_string(idx));
-    _name = name;
-    for (int i = 0; i < 15; i++) _score[i] = score[i];
-    
-}
-
-int Player::SetRank(int idx, int score) {
-    if (idx < 1 || idx > 15) return -1;
-    idx -= 1;
-    _score[idx] = score;
-}
 
