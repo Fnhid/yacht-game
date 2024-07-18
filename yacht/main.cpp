@@ -3,15 +3,18 @@
 #pragma once
 #include "main.h"
 
-void setConsoleSize() {
-	system("mode con:cols=200 lines=40");
-}
 
 void menu() {
+	gotoxy(55, 18);
 	cout << "[ * Menu * ]" << endl;
+	gotoxy(55, 19);
 	cout << "1. vs Player" << endl;
+	gotoxy(55, 20);
 	cout << "2. vs COM" << endl;
+	gotoxy(55, 21);
 	cout << "3. Exit" << endl;
+	gotoxy(55, 22);
+	cout << "> ";
 }
 
 void setColor(unsigned short text) {
@@ -22,9 +25,9 @@ int main()
 {
 
 	SetConsoleTitle("Yacht Game!");
-	setConsoleSize();
+	system("mode con:cols=130 lines=40");
 	std::cout << R"(
-	     __      __                   __          __             ______                                     __ 
+ __      __                   __          __             ______                                     __ 
 /  \    /  |                 /  |        /  |           /      \                                   /  |
 $$  \  /$$/______    _______ $$ |____   _$$ |_         /$$$$$$  |  ______   _____  ____    ______  $$ |
  $$  \/$$//      \  /       |$$      \ / $$   |        $$ | _$$/  /      \ /     \/    \  /      \ $$ |
@@ -41,6 +44,7 @@ $$  \  /$$/______    _______ $$ |____   _$$ |_         /$$$$$$  |  ______   ____
 	int select;
 	
 	while (1) {
+		
 		menu();
 		cin >> select;
 		switch (select) {
@@ -48,7 +52,9 @@ $$  \  /$$/______    _______ $$ |____   _$$ |_         /$$$$$$  |  ______   ____
 			game(1);
 			break;
 		case 2:
-			game(2);
+			cout << "vs Computer mode is now under dev." << endl;
+			//game(2);
+			break;
 
 		case 3:
 			cout << "bye" << endl;

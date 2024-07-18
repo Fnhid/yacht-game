@@ -3,7 +3,10 @@
 
 #include <iostream>
 #include <string>
+#include "interface.h"
+
 using namespace std;
+
 enum Color{
     BLACK,
     DARK_BLUE,

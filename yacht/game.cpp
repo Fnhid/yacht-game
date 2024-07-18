@@ -20,14 +20,23 @@ int Player::SetRank(int idx, int score) {
 }
 
 int game(int game_type) {
-
+	
 	if (game_type == 1) {
 		int players_num;
+		string player_name;
+		system("mode con:cols=130 lines=40");
+		gotoxy(55, 5);
 		cout << "Please enter the number of players\n>> ";
 		cin >> players_num;
-		//for (int i = 0; i < players_num; i++) {
-
-		//}
+		Player* players = new Player[players_num];
+		for (int i = 0; i < players_num; i++) {
+			system("mode con:cols=130 lines=40");
+			gotoxy(55, 5);
+			cout << "Name of Player " << (i + 1) << ": ";
+			cin >> player_name;
+			players[i] = Player::SetPlayer(i, 0, player_name); 
+		}
+		
 	} 
 	else if (game_type == 2) {
 		// game with computer
