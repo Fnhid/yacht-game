@@ -9,6 +9,7 @@
 #include <ctime>
 #include <Windows.h>
 #include "interface.h"
+#include <limits>
 
 using namespace std;
 

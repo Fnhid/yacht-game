@@ -6,33 +6,50 @@ void Dice::RollDice() {
 	srand(static_cast<unsigned int> (time(NULL))); // for animation random
 	int tmp;
 
+
 	for (int i = 0; i < 5; i++) {
-		if (!_isChangeable[i]) continue;
+		if (!isDiceChangeable(i)) {
+			SetColor(DARK_GREEN, BLACK);
+			gotoxy(50 + 5 * i, 11);
+			cout << GetDiceValue(i);
+			continue;
+		}
 		uniform_int_distribution<int> dist(1, 6);
 		_value[i] = dist(mt);
 	}
+	cin.ignore(32467, '\n');
+	cin.ignore(32467, '\n');
 
-	for (int i = 0; i < 20; i++) {
-		for (int j = 0; j < 5; j++) {
-			if (!_isChangeable[j]) continue;
-			tmp = rand() % 6 + 1;
-			Sleep(100);
-			gotoxy(50 + 5 * i, 9);
-			cout << tmp;
+	SetColor(WHITE, BLACK);
+	for (int k = 0; k < 5; k++) {
+		for (int i = 0; i < 20; i++) {
+			for (int j = k; j < 5; j++) {
+				if (!isDiceChangeable(j)) continue;
+				tmp = rand() % 6 + 1;
+				Sleep(5);
+				gotoxy(50 + 5 * j, 11);
+				cout << tmp;
+			}
 		}
-	}
-	for (int i = 0; i < 5; i++) {
-		if (!_isChangeable[i]) continue;
-		tmp = rand() % 6 + 1;
-		Sleep(500);
-		gotoxy(50 + 5 * i, 9);
-		cout << tmp;
+		if (_isChangeable[k]) {
+			gotoxy(50 + k * 5, 11);
+			cout << GetDiceValue(k);
+		}
 	}
 }
 
 
 bool Dice::isDiceChangeable(int idx) {
 	return _isChangeable[idx];
+}
+void Dice::SetDiceChangeable(int idx) {
+	if (_isChangeable[idx] == TRUE) _isChangeable[idx] = FALSE;
+	else _isChangeable[idx] = TRUE;
+	gotoxy(50 + 5 * idx, 11);
+	if (_isChangeable[idx]) SetColor(WHITE, BLACK);
+	else SetColor(GREEN, BLACK);
+	cout << GetDiceValue(idx);
+	SetColor(WHITE, BLACK);
 }
 int Dice::GetDiceValue(int idx) {
 	return _value[idx];

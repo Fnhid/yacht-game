@@ -1,20 +1,17 @@
 #include "game.h"
 
-void SetColor(Color text, Color back) {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), text | (back << 4));
-}
-
 void SetGameInterface(Player players[2], Dice dice, int round) {
-	int a;
 
 	system("mode con:cols=130 lines=40");
 	gotoxy(52, 5);
 	cout << "[ * Round " << ((round+1) / 2) << " * ]";
 
 	// dice UI
+	gotoxy(48, 8);
+	cout << "Press ENTER to roll dice";
 	for (int i = 0; i < 5; i++) { // dice_x 50~70
-		gotoxy(50 + 5 * i, 9);
-		cout << dice.GetDiceValue(i);
+		gotoxy(50 + 5 * i, 11);
+		cout << '?';
 	}
 
 
@@ -39,40 +36,51 @@ void SetGameInterface(Player players[2], Dice dice, int round) {
 
 	// scoreboard UI
 	gotoxy(50, 13);
-	cout << "[====== RANK =======]";
+	cout << "╔══════ RANK ═══════╗";
 	gotoxy(50, 14);
-	cout << "|       ACES        |";
+	cout << "║     *  ACES  *    ║";
 	gotoxy(50, 15);
-	cout << "|       TWOS        |";
+	cout << "║    **  TWOS  **   ║";
 	gotoxy(50, 16);
-	cout << "|      THREES       |";
+	cout << "║   *** THREES ***  ║";
 	gotoxy(50, 17);
-	cout << "|       FOURS       |";
+	cout << "║  **** FOURS ****  ║";
 	gotoxy(50, 18);
-	cout << "|       FIVES       |";
+	cout << "║ ***** FIVES ***** ║";
 	gotoxy(50, 19);
-	cout << "|       SIXES       |";
+	cout << "║****** SIXES ******║";
 	gotoxy(50, 20);
-	cout << "| *    SUBTOTAL   * |";
+	cout << "║   // SUBTOTAL //  ║";
 	gotoxy(50, 21);
-	cout << "|**  ** BONUS **  **|";
+	cout << "║    ++ BONUS ++    ║";
 	gotoxy(50, 22);
-	cout << "|       CHANCE      |";
+	cout << "║?      CHANCE     ?║";
 	gotoxy(50, 23);
-	cout << "|  THREE OF A KIND  |";
+	cout << "║3 THREE OF A KIND 3║";
 	gotoxy(50, 24);
-	cout << "|   FOUR OF A KIND  |";
+	cout << "║4  FOUR OF A KIND 4║";
 	gotoxy(50, 25);
-	cout << "|     FULL HOUSE    |";
+	cout << "║F    FULL HOUSE   F║";
 	gotoxy(50, 26);
-	cout << "|   SMALL STRAIGHT  |";
+	cout << "║s  SMALL STRAIGHT s║";
 	gotoxy(50, 27);
-	cout << "|   LARGE STRAIGHT  |";
+	cout << "║S  LARGE STRAIGHT S║";
 	gotoxy(50, 28);
-	cout << "|      YAHTZEE!     |";
+	cout << "║  $$  YAHTZEE!  $$ ║";
 	gotoxy(50, 29);
-	cout << "|------ TOTAL ------|";
+	cout << "╚══════ TOTAL ══════╝";
 	
+	SetColor(WHITE, DARK_GRAY);
+	gotoxy(98, 35);
+	cout << "╔══════════════════════════╗";
+	gotoxy(98, 36);
+	cout << "║   Move : ← →             ║";
+	gotoxy(98, 37);
+	cout << "║   (un)Freeze : ↑ ↓       ║";
+	gotoxy(98, 38);
+	cout << "║   Roll & Select: Enter   ║";
+	gotoxy(98, 39);
+	cout << "╚══════════════════════════╝";
 
 	SetColor(WHITE, BLACK);
 	for (int i = 0; i < 6; i++) {
@@ -130,8 +138,6 @@ void SetGameInterface(Player players[2], Dice dice, int round) {
 	cout << players[1].GetRank(15);
 	
 
-	cin >> a;
-
 }
 
 
@@ -172,14 +178,64 @@ int game(int game_type) {
 	for (int round = 1; round <= 26; round++) { // odd round : 1p, even round : 2p
 		Dice* dice = new Dice();
 		SetGameInterface(players, *dice, round);
+		
+		for (int reroll = 2; reroll >= 0; reroll--) {
+			int idx = 0;
+			int c=0;
+			bool nf = false; // raise when enter key is pressed 
 
+			dice->RollDice();
+			gotoxy(51, 7);
+			cout << reroll << " attempt(s) left";
+			gotoxy(36, 8);
+			cout << "Choose dices to freeze and press ENTER to reroll";
+			
+			while (!nf) {
+				if (kbhit()) {
+
+					c = getch();
+					if (c == 224 || c == 0) {
+						switch ((c = getch())) {
+							case KEY_LEFT:
+								gotoxy(50 + 5 * idx, 10);
+								cout << " ";
+								if (idx == 0) idx = 4;
+								else idx--;
+								gotoxy(50 + 5 * idx, 10);
+								cout << "↓";
+								break;
+							case KEY_RIGHT:
+								gotoxy(50 + 5 * idx, 10);
+								cout << " ";
+								if (idx == 4) idx = 0;
+								else idx++;
+								gotoxy(50 + 5 * idx, 10);
+								cout << "↓";
+								break;
+							case KEY_UP:
+								dice->SetDiceChangeable(idx);
+								break;
+							case KEY_DOWN:
+								dice->SetDiceChangeable(idx);
+								break;
+							default:
+								break;
+						}
+					}
+					else if (c == ENTER) {
+						nf = TRUE;
+						gotoxy(50 + 5 * idx, 10);
+						cout << " ";
+					}
+
+				}
+				
+			}
+		}
 		
 		delete dice;
 	}
 
-
-
-	
 	
 	system("mode con:cols=130 lines=40 && color 0F");
 	return 0;
