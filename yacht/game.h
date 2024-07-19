@@ -1,9 +1,10 @@
-
 #pragma once
+#ifndef GAME_H
+#define GAME_H
 
 #include <iostream>
 #include <string>
-#include "interface.h"
+#include <windows.h>
 
 using namespace std;
 
@@ -44,23 +45,36 @@ enum Ranking{
     YAHTZEE_BONUS
 };
 
-void setColor(unsigned short text);
-int game(int game_type);
-int setInterface();
-Ranking checkRank();
+void setColor(unsigned short text, unsigned short back);
 
+
+struct dice {
+    int value[5] = { 0,0,0,0,0 };
+    bool isChangeable[5] = { 1,1,1,1,1 };
+};
 
 class Player {
 private:
     int _idx;
     string _name;
-    int _score[15];
-public:
-    Player(int idx, int score[15], string name ="Player");
-    void SetPlayer(int idx, int score[15], string name );
-    int SetRank(int idx, int score);
+    int _score[15] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+    bool _scored[15] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }; // check if scored
 
+public:
+    Player() {
+        _idx = 0;
+        _name = "player";
+    }
+    Player(int idx, string name);
+    int SetRank(int idx, int score);
+    int GetRank(int idx);
+    string GetName();
 };
 
+void SetGameInterface(Player players[2], dice& dice);
+int game(int game_type);
+Ranking checkRank();
+void gotoxy(int x, int y);
+void rollDice(dice& dice);
 
-
+#endif // !GAME_H
