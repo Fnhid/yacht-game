@@ -1,9 +1,8 @@
 ﻿# CMakeList.txt : CMake project for yacht, include source and define
 # project specific logic here.
 #
-
 # Add source to this project's executable.
-add_executable (yacht "main.cpp" "main.h" "game.h" "game.cpp"  )
+add_executable (yacht "main.cpp" "main.h" "game.h" "game.cpp" "dice.h" "dice.cpp" "player.cpp" "player.h" "interface.h" "interface.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET yacht PROPERTY CXX_STANDARD 20)

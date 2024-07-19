@@ -1,98 +1,133 @@
-
 #include "game.h"
-
-Player::Player(int idx, string name) {
-	_idx = idx;
-	_name = name;
-	if (_name == "Player") name += (" " + to_string(idx));
-
-}
-
-int Player::SetRank(int idx, int score) {
-	if (idx < 1 || idx > 15) return -1;
-	idx -= 1;
-	_score[idx] = score;
-	return 0;
-}
-string Player::GetName() {
-	return _name;
-
-}
-int Player::GetRank(int idx) {
-	if (idx < 0 || idx > 15) return -1;
-	int score = _score[idx];
-	return score;
-}
-
-void gotoxy(int x, int y) {
-	COORD Cur;
-	Cur.X = x;
-	Cur.Y = y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
-}
 
 void SetColor(Color text, Color back) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), text | (back << 4));
 }
 
-void SetGameInterface(Player players[2], dice& dice) {
+void SetGameInterface(Player players[2], Dice dice, int round) {
 	int a;
+
+	system("mode con:cols=130 lines=40");
+	gotoxy(52, 5);
+	cout << "[ * Round " << ((round+1) / 2) << " * ]";
+
 	// dice UI
 	for (int i = 0; i < 5; i++) { // dice_x 50~70
-		gotoxy(50 + 5 * i, 11);
-		cout << dice.value[i];
+		gotoxy(50 + 5 * i, 9);
+		cout << dice.GetDiceValue(i);
 	}
 
 
-	SetColor(WHITE, DARK_RED);
-	gotoxy(40, 13);
-	cout << players[0].GetName();
-	gotoxy(75, 13);
-	cout << players[1].GetName();
+	if (round % 2 == 1) {
+		SetColor(WHITE, GREEN);
+		gotoxy(40, 13);
+		cout << players[0].GetName();
+		SetColor(WHITE, DARK_GRAY);
+		gotoxy(75, 13);
+		cout << players[1].GetName();
+	}
+	else {
+		SetColor(WHITE, DARK_GRAY);
+		gotoxy(40, 13);
+		cout << players[0].GetName();
+		SetColor(WHITE, GREEN);
+		gotoxy(75, 13);
+		cout << players[1].GetName();
+	}
+	
+	SetColor(WHITE, RED);
 
 	// scoreboard UI
 	gotoxy(50, 13);
-	cout << "[     * RANK *     ]";
+	cout << "[====== RANK =======]";
 	gotoxy(50, 14);
-	cout << "|       ACES       |";
+	cout << "|       ACES        |";
 	gotoxy(50, 15);
-	cout << "|       TWOS       |";
+	cout << "|       TWOS        |";
 	gotoxy(50, 16);
-	cout << "|      THREES      |";
+	cout << "|      THREES       |";
 	gotoxy(50, 17);
-	cout << "|       FOURS      |";
+	cout << "|       FOURS       |";
 	gotoxy(50, 18);
-	cout << "|       FIVES      |";
+	cout << "|       FIVES       |";
 	gotoxy(50, 19);
-	cout << "|       SIXES      |";
+	cout << "|       SIXES       |";
 	gotoxy(50, 20);
-	cout << "|**  ** BONUS ** **|";
+	cout << "| *    SUBTOTAL   * |";
 	gotoxy(50, 21);
-	cout << "|  THREE OF A KIND |";
+	cout << "|**  ** BONUS **  **|";
 	gotoxy(50, 22);
-	cout << "|  FOUR OF A KIND  |";
+	cout << "|       CHANCE      |";
 	gotoxy(50, 23);
-	cout << "|    FULL HOUSE    |";
+	cout << "|  THREE OF A KIND  |";
 	gotoxy(50, 24);
-	cout << "|  SMALL STRAIGHT  |";
+	cout << "|   FOUR OF A KIND  |";
 	gotoxy(50, 25);
-	cout << "|  LARGE STRAIGHT  |";
+	cout << "|     FULL HOUSE    |";
 	gotoxy(50, 26);
-	cout << "|      CHANCE      |";
+	cout << "|   SMALL STRAIGHT  |";
 	gotoxy(50, 27);
-	cout << "|     YAHTZEE!     |";
+	cout << "|   LARGE STRAIGHT  |";
 	gotoxy(50, 28);
-	cout << "| * YAHTZEE BONUS *|";
+	cout << "|      YAHTZEE!     |";
+	gotoxy(50, 29);
+	cout << "|------ TOTAL ------|";
 	
 
 	SetColor(WHITE, BLACK);
-	for (int i = 0; i < 13; i++) {
+	for (int i = 0; i < 6; i++) {
 		gotoxy(40, 14+i);
-		cout << players[0].GetRank(i);
+		if (players[0].GetRank(i) == -1) cout << "--";
+		else cout << players[0].GetRank(i);
 		gotoxy(75, 14 + i);
-		cout << players[1].GetRank(i);
+		if (players[1].GetRank(i) == -1) cout << "--";
+		else cout << players[1].GetRank(i);
 
-	}	
+	}	// 1~6
+
+	gotoxy(40, 20); // subtotal
+
+	if (players[0].GetRank(13) >= 63) SetColor(SKYBLUE, DARK_GRAY);
+	else SetColor(RED, BLACK);
+	cout << players[0].GetRank(13) << " / 63";
+	gotoxy(75, 20);
+	if (players[1].GetRank(13) >= 63) SetColor(SKYBLUE, DARK_GRAY);
+	else SetColor(RED, BLACK);
+	cout << players[1].GetRank(13) << " / 63";
+
+	gotoxy(40, 21); // bonus
+	if (players[0].GetRank(13) >= 63) {
+		SetColor(SKYBLUE, BLACK);
+		cout << "+ 35";
+	}
+	else {
+		SetColor(DARK_GRAY, BLACK);
+		cout << "+ 35";
+	}
+	gotoxy(75, 21);
+	if (players[1].GetRank(13) >= 63) {
+		SetColor(SKYBLUE, GRAY);
+		cout << "+ 35";
+	}
+	else {
+		SetColor(DARK_GRAY, BLACK);
+		cout << "+ 35";
+	}
+	SetColor(WHITE, BLACK);
+	
+	for (int i = 6; i < 13; i++) {
+		gotoxy(40, 16 + i);
+		if (players[0].GetRank(i) == -1) cout << "--";
+		else cout << players[0].GetRank(i);
+		gotoxy(75, 16 + i);
+		if (players[1].GetRank(i) == -1) cout << "--";
+		else cout << players[1].GetRank(i);
+	} // other ranks
+
+	gotoxy(40, 29);
+	cout << players[0].GetRank(15);
+	gotoxy(75, 29);
+	cout << players[1].GetRank(15);
 	
 
 	cin >> a;
@@ -105,7 +140,6 @@ int game(int game_type) {
 	system("mode con:cols=130 lines=40");
 	gotoxy(55, 5);
 	Player players[2];
-	dice dice;
 	
 	if (game_type == 1) {
 		
@@ -115,10 +149,7 @@ int game(int game_type) {
 			gotoxy(45, 5);
 			cout << "Name of Player " << (i + 1) << ": ";
 			cin >> player_name;
-			players[i] = Player(i, player_name); 
-
-
-			
+			players[i].SetPlayer(i, player_name); 
 		}
 	} 
 	else if (game_type == 2) {
@@ -129,29 +160,27 @@ int game(int game_type) {
 		cout << "Name of Player: ";
 		cin >> player_name;
 		player_name.resize(20);
-		players[0] = Player(0, player_name);
-		players[1] = Player(1, "computer");
+		players[0].SetPlayer(0, player_name);
+		players[1].SetPlayer(1, "computer");
 		
 	}
 	else {
 		// exception
 		return 0;
 	}
-	for (int round = 1; round < 13; round++) {
-		system("mode con:cols=130 lines=40");
-		gotoxy(55, 5);
-		cout << "[ * Round " << round << " * ]";
-		
-		SetGameInterface(players, dice);
+
+	for (int round = 1; round <= 26; round++) { // odd round : 1p, even round : 2p
+		Dice* dice = new Dice();
+		SetGameInterface(players, *dice, round);
 
 		
-
+		delete dice;
 	}
 
 
 
 	
 	
-	
+	system("mode con:cols=130 lines=40 && color 0F");
 	return 0;
 }
