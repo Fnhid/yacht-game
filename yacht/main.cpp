@@ -7,14 +7,12 @@
 void menu() {
 	gotoxy(55, 18);
 	cout << "[ * Menu * ]" << endl;
-	gotoxy(55, 19);
-	cout << "1. vs Player" << endl;
+	gotoxy(52, 19);
+	cout << "→  1. vs Player" << endl;
 	gotoxy(55, 20);
 	cout << "2. vs CPU" << endl;
 	gotoxy(55, 21);
 	cout << "3. Exit" << endl;
-	gotoxy(55, 22);
-	cout << "> ";
 }
 
 void setColor(unsigned short text) {
@@ -36,33 +34,64 @@ $$  \  /$$/______    _______ $$ |____   _$$ |_         /$$$$$$  |  ______   ____
     $$ | /$$$$$$$ |$$ \_____ $$ |  $$ |  $$ |/  |      $$ \__$$ |/$$$$$$$ |$$ | $$ | $$ |$$$$$$$$/  __ 
     $$ | $$    $$ |$$       |$$ |  $$ |  $$  $$/       $$    $$/ $$    $$ |$$ | $$ | $$ |$$       |/  |
     $$/   $$$$$$$/  $$$$$$$/ $$/   $$/    $$$$/         $$$$$$/   $$$$$$$/ $$/  $$/  $$/  $$$$$$$/ $$/ 
- v 0.1                                                                                                      
+ v 1.0                                                                                                      
                                                                                                        
                                                                                                        
 
 	)";
-	int select;
-	
 	while (1) {
-		
+
 		menu();
-		cin >> select;
-		switch (select) {
-		case 1:
+		int idx = 0, c;
+		bool nf = false;
+		while (!nf) {
+			if (_kbhit()) {
+				c = _getch();
+				if (c == 224 || c == 0) {
+					switch ((c = _getch())) {
+					case KEY_UP:
+						gotoxy(52, 19 + idx);
+						cout << " ";
+						if (idx == 0) idx = 2;
+						else idx--;
+						gotoxy(52, 19 + idx);
+						cout << "→";
+						break;
+					case KEY_DOWN:
+						gotoxy(52, 19 + idx);
+						cout << " ";
+						if (idx == 2) idx = 0;
+						else idx++;
+						gotoxy(52, 19 + idx);
+						cout << "→";
+						break;
+					default:
+						break;
+					}
+				}
+				else if (c == ENTER) {
+					nf = true;
+					cout << " ";
+				}
+
+			}
+		}
+		switch (idx) {
+		case 0:
 			game(1);
 			break;
-		case 2:
+		case 1:
 			cout << "vs Computer mode is now under dev." << endl;
 			//game(2);
 			break;
 
-		case 3:
+		case 2:
 			cout << "bye" << endl;
 			return 0;
-		default:
-			cout << "Wrong Option, Please enter the right option." << endl;
-
 		}
+		
 	}
-	
 }
+
+		
+		

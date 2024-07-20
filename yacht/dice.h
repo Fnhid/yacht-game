@@ -10,6 +10,8 @@
 #include <Windows.h>
 #include "interface.h"
 #include <limits>
+#include <vector>
+#include <conio.h>
 
 using namespace std;
 
@@ -32,13 +34,19 @@ enum Ranking {
 class Dice {
 private:
     int _value[5] = { 0,0,0,0,0 };
+    vector<int> _frozenValue;
+    int _frozenIdx[5] = {-1,-1,-1,-1,-1};
     bool _isChangeable[5] = { 1,1,1,1,1 };
+    bool _isfrozen[5] = { 0,0,0,0,0 };
 public:
     bool isDiceChangeable(int idx);
+    bool isDicefrozen(int idx);
+    void SetDicefrozen(int idx);
     int GetDiceValue(int idx);
     void RollDice();
-    void SetDiceChangeable(int idx);
-    Ranking CheckRank();
+    bool SetDiceChangeable(int idx, bool setState);
+    int getDiceRank(int idx);
+    void PrintfrozenDice();
 };
 
 #endif

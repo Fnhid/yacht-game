@@ -10,3 +10,8 @@ void gotoxy(int x, int y) {
 	Cur.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
 }
+
+void clearY(int x) {
+	gotoxy(0, x);
+	cout << "                                                                                                                                  ";
+}

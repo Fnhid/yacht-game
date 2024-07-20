@@ -7,6 +7,7 @@
 
 #include <windows.h>
 #include "game.h"
+#include "interface.h"
 
 using namespace std;
 // TODO: Reference additional headers your program requires here.

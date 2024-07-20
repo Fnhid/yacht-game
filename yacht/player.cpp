@@ -7,11 +7,19 @@ void Player::SetPlayer(int idx, string name) {
 
 }
 
-int Player::SetRank(int idx, int score) {
-	if (idx < 1 || idx > 15) return -1;
-	idx -= 1;
+void Player::SetRank(int idx, int score) {
 	_score[idx] = score;
-	return 0;
+	if (idx <= 5) _score[13] += score;
+	_score[15] += score;
+
+	if (!_gotBonus&& _score[13] >= 63) {
+		_gotBonus = true;
+		_score[14] = 35; 
+		_score[15] += 35;
+
+	}
+
+
 }
 string Player::GetName() {
 	return _name;
