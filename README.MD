@@ -7,7 +7,10 @@ This game still have a few issues.
 Please contact me if you find some issues.
 (**DON'T CLICK KEYBOARD DURING DICE ROLL**)
 
-* TO DO
+### Rule
+https://namu.wiki/w/%EC%9A%94%ED%8A%B8(%EA%B2%8C%EC%9E%84)
+
+### TO DO
 - [X] 1p vs 2p feature
 - [ ] 1p vs cpu feature
 - [ ] Code optimization
