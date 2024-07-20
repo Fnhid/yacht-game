@@ -9,7 +9,7 @@ This game only works in Windows. (this program includes windows.h)
 
 This game still have a few issues. 
 Please contact me if you find some issues.
-(**DON'T CLICK KEYBOARD DURING DICE ROLL**)
+(**DO NOT CLICK KEYBOARD DURING DICE ROLL**)
 
 이 게임은 초기 버전으로 버그가 엄청 많을 수 있습니다.
 만약 버그를 발견하면, 저에게 연락해 주시거나 풀리 달아주시면 감사하겠습니다.
