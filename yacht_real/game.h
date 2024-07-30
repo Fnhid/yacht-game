@@ -3,22 +3,23 @@
 #define GAME_H
 
 
-
-#include <iostream>
-#include <string>
+// Socket
+#ifndef _WINSOCK2API_
+#include <WinSock2.h>
+#include <WS2tcpip.h>
 #include <windows.h>
-#include <conio.h>
+#endif 
+
+#include "global.h"
 #include "interface.h"
 #include "player.h"
 #include "dice.h"
 
-using namespace std;
+#define PORT 6666
 
+#pragma comment(lib, "ws2_32")
 
-
-
-
-
+void ScoreHelp();
 void SetGameInterface(Player players[2], Dice dice, int round);
 int game(int game_type);
 void gotoxy(int x, int y);

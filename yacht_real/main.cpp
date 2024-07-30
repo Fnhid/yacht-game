@@ -8,9 +8,9 @@ void menu() {
 	gotoxy(55, 18);
 	cout << "[ * Menu * ]" << endl;
 	gotoxy(52, 19);
-	cout << "→  1. vs Player" << endl;
+	cout << "→  1. Local" << endl;
 	gotoxy(55, 20);
-	cout << "2. vs CPU" << endl;
+	cout << "2. Online" << endl;
 	gotoxy(55, 21);
 	cout << "3. Exit" << endl;
 }
@@ -81,8 +81,7 @@ $$  \  /$$/______    _______ $$ |____   _$$ |_         /$$$$$$  |  ______   ____
 			game(1);
 			break;
 		case 1:
-			cout << "vs Computer mode is now under dev." << endl;
-			//game(2);
+			game(2);
 			break;
 
 		case 2:

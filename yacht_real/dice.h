@@ -2,18 +2,14 @@
 #ifndef DICE_H
 #define DICE_H
 
-#include <iostream>
-#include <string>
+#include "global.h"
+#include "interface.h"
+#include <conio.h>
 #include <random>
 #include <cstdlib>
 #include <ctime>
-#include <Windows.h>
-#include "interface.h"
 #include <limits>
 #include <vector>
-#include <conio.h>
-
-using namespace std;
 
 enum Ranking {
     ACES,
@@ -37,16 +33,21 @@ private:
     vector<int> _frozenValue;
     int _frozenIdx[5] = { -1,-1,-1,-1,-1 };
     bool _isChangeable[5] = { 1,1,1,1,1 };
-    bool _isfrozen[5] = { 0,0,0,0,0 };
+    bool _isFrozen[5] = { 0,0,0,0,0 };
 public:
     bool isDiceChangeable(int idx);
-    bool isDicefrozen(int idx);
-    void SetDicefrozen(int idx);
+    bool isDiceFrozen(int idx);
+    void SetDiceFrozen(int idx);
     int GetDiceValue(int idx);
-    void RollDice();
+    int GetFrozenValue(int idx);
+    int GetFrozenIdx(int idx);
+    void RollDice(); // for local game
+    void RollDice(SOCKET& serverSock); // for turn user
+    void RollDice(char val[BUFSIZE]); // for non-turn user
     bool SetDiceChangeable(int idx, bool setState);
-    int getDiceRank(int idx);
+    int GetDiceRank(int idx);
     void PrintfrozenDice();
 };
+
 
 #endif

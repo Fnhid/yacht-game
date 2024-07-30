@@ -2,9 +2,8 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
-#include <Windows.h>
-#include <iostream>
-using namespace std;
+#include "global.h"
+
 #define KEY_UP    72
 #define KEY_LEFT  75
 #define KEY_RIGHT 77

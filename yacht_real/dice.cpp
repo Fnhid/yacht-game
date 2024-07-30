@@ -1,11 +1,20 @@
 #include "dice.h"
 
-void Dice::RollDice() {
+
+int Dice::GetFrozenIdx(int idx) {
+	if (_frozenIdx[idx] == -1) return 9;
+	return _frozenIdx[idx];
+}
+
+int Dice::GetFrozenValue(int idx) {
+	return _frozenValue[idx];
+}
+
+void Dice::RollDice() { // for local game
 	random_device rd;
 	mt19937 mt(rd()); // for stable random
 	srand(static_cast<unsigned int> (time(NULL))); // for animation random
 	int tmp, c = 0;
-
 
 	for (int i = 0; i < 5; i++) {
 		if (!_isChangeable[i]) {
@@ -26,6 +35,7 @@ void Dice::RollDice() {
 		}
 	}
 
+
 	SetColor(WHITE, BLACK);
 	for (int k = 0; k < 5; k++) {
 		for (int i = 0; i < 20; i++) {
@@ -43,11 +53,89 @@ void Dice::RollDice() {
 		}
 	}
 }
-bool Dice::isDicefrozen(int idx) {
-	return _isfrozen[idx];
+
+void Dice::RollDice(SOCKET &serverSock) { // for on-turn user
+	random_device rd;
+	mt19937 mt(rd()); // for stable random
+	srand(static_cast<unsigned int> (time(NULL))); // for animation random
+	int tmp, c = 0, checkByte;
+	char buf[BUFSIZE];
+
+	ZeroMemory((void*)&buf, BUFSIZE - 1);
+
+	for (int i = 0; i < 5; i++) {
+		if (!_isChangeable[i]) {
+			gotoxy(50 + 5 * i, 11);
+			cout << ' ';
+			continue;
+		}
+		else {
+			uniform_int_distribution<int> dist(1, 6);
+
+			_value[i] = dist(mt);
+		}
+	}
+	while (true) {
+		if (_kbhit()) {
+			c = _getch();
+			if (c == ENTER) break;
+		}
+	}
+	for (int i = 0; i < 5; i++) { // pack dice data
+		buf[i] = _value[i];
+	}
+	checkByte = send(serverSock, buf, BUFSIZE - 1, 0);
+
+	if (checkByte == SOCKET_ERROR)
+		ErrorHandling("send() error");
+
+	SetColor(WHITE, BLACK);
+	for (int k = 0; k < 5; k++) {
+		for (int i = 0; i < 20; i++) {
+			for (int j = k; j < 5; j++) {
+				if (!_isChangeable[j]) continue;
+				tmp = rand() % 6 + 1;
+				Sleep(5);
+				gotoxy(50 + 5 * j, 11);
+				cout << tmp;
+			}
+		}
+		if (_isChangeable[k]) {
+			gotoxy(50 + k * 5, 11);
+			cout << _value[k];
+		}
+	}
 }
-void Dice::SetDicefrozen(int idx) {
-	_isfrozen[idx] = true;
+
+void Dice::RollDice(char val[BUFSIZE]) { // for non-turn user
+	srand(static_cast<unsigned int> (time(NULL))); // for animation random
+	int tmp, c = 0;
+	for (int k = 0; k < 5; k++)
+
+	SetColor(WHITE, BLACK);
+	for (int k = 0; k < 5; k++) {
+		_value[k] = val[k];
+		for (int i = 0; i < 20; i++) {
+			for (int j = k; j < 5; j++) {
+				if (_isFrozen[j]) continue;
+				tmp = rand() % 6 + 1;
+				Sleep(5);
+				gotoxy(50 + 5 * j, 11);
+				cout << tmp;
+			}
+		}
+		if (_isChangeable[k]) {
+			gotoxy(50 + k * 5, 11);
+			cout << _value[k];
+		}
+	}
+}
+
+bool Dice::isDiceFrozen(int idx) {
+	return _isFrozen[idx];
+}
+void Dice::SetDiceFrozen(int idx) {
+	_isFrozen[idx] = true;
 }
 
 bool Dice::isDiceChangeable(int idx) {
@@ -118,7 +206,7 @@ int Dice::GetDiceValue(int idx) {
 	return _value[idx];
 }
 
-int Dice::getDiceRank(int idx) {
+int Dice::GetDiceRank(int idx) {
 	int score = 0, val_arr[6] = {};
 	bool f, f2, f3;
 	for (int i : _frozenValue) val_arr[i - 1]++;

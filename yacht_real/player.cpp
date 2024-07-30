@@ -3,7 +3,7 @@
 void Player::SetPlayer(int idx, string name) {
 	_idx = idx;
 	_name = name;
-	if (_name == "Player") name += (" " + to_string(idx));
+	if (_name == "Player") _name += (" " + to_string(idx));
 
 }
 
