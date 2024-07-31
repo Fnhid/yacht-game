@@ -18,7 +18,11 @@ Please contact me if you find some issues.
 ### Rule 규칙
 https://namu.wiki/w/%EC%9A%94%ED%8A%B8(%EA%B2%8C%EC%9E%84)
 
+### How to play online game 온라인 게임 하는 법
+1. Host가 yacht-server.exe를 실행합니다.
+2. 두 플레이어 모두 yacht-client.exe에서 online 선택 -> Host IP 주소 입력하여 연결합니다.
+
 ### TO DO
-- [X] 1p vs 2p feature
-- [ ] 1p vs cpu feature
+- [X] local feature
+- [X] online feature
 - [ ] Code optimization
