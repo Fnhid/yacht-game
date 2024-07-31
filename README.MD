@@ -5,7 +5,7 @@ This game only works in Windows. (this program includes windows.h)
 
 요트 다이스라고 알려진 게임을 콘솔 버전으로 만들어 보았습니다.
 이 게임은 윈도우 환경에서만 작동합니다. (아쉽게도 다른 환경에서 콘솔 크기나 커서같은 것을 조작할 수 있는 방법을 찾지 못했습니다..)
-
+우측 release에서 zip파일을 다운받아 직접 플레이할 수 있습니다.
 
 This game still have a few issues. 
 Please contact me if you find some issues.
