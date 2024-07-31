@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yacht", "yacht_real\yacht_real.vcxproj", "{F460B690-381B-45EE-9392-3DA95B9DEE53}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yacht", "yacht-client\yacht-client.vcxproj", "{F460B690-381B-45EE-9392-3DA95B9DEE53}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yacht-server", "yacht-server\yacht-server.vcxproj", "{F8DEA969-1AA6-45AE-9AB5-450D01811044}"
 EndProject
