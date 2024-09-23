@@ -1,6 +1,6 @@
 #include "global.h"
 
-void ErrorHandling(const char* message)
+void errorHandling(const char* message)
 {
 	fputs(message, stderr);
 	fputc('\n', stderr);

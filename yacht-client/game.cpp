@@ -1,8 +1,8 @@
 #include "game.h"
 
-void ScoreHelp() {
+void scoreHelp() {
 	clearY(34);
-	SetColor(WHITE, DARK_GRAY);
+	setColor(WHITE, DARK_GRAY);
 	gotoxy(98, 35);
 	cout << "╔══════════════════════════╗";
 	gotoxy(98, 36);
@@ -13,10 +13,10 @@ void ScoreHelp() {
 	cout << "║       Select: Enter      ║";
 	gotoxy(98, 39);
 	cout << "╚══════════════════════════╝";
-	SetColor(WHITE, BLACK);
+	setColor(WHITE, BLACK);
 }
 
-void SetGameInterface(Player players[2], Dice dice, int round) {
+void setGameInterface(Player players[2], Dice dice, int round) {
 
 	system("mode con:cols=130 lines=40");
 	gotoxy(52, 2);
@@ -32,23 +32,23 @@ void SetGameInterface(Player players[2], Dice dice, int round) {
 
 
 	if (round % 2 == 1) {
-		SetColor(WHITE, GREEN);
+		setColor(WHITE, GREEN);
 		gotoxy(40, 13);
-		cout << players[0].GetName();
-		SetColor(WHITE, DARK_GRAY);
+		cout << players[0].getName();
+		setColor(WHITE, DARK_GRAY);
 		gotoxy(75, 13);
-		cout << players[1].GetName();
+		cout << players[1].getName();
 	}
 	else {
-		SetColor(WHITE, DARK_GRAY);
+		setColor(WHITE, DARK_GRAY);
 		gotoxy(40, 13);
-		cout << players[0].GetName();
-		SetColor(WHITE, GREEN);
+		cout << players[0].getName();
+		setColor(WHITE, GREEN);
 		gotoxy(75, 13);
-		cout << players[1].GetName();
+		cout << players[1].getName();
 	}
 
-	SetColor(WHITE, RED);
+	setColor(WHITE, RED);
 
 	// scoreboard UI
 	gotoxy(50, 13);
@@ -86,7 +86,7 @@ void SetGameInterface(Player players[2], Dice dice, int round) {
 	gotoxy(50, 29);
 	cout << "╚══════ TOTAL ══════╝";
 
-	SetColor(WHITE, DARK_GRAY);
+	setColor(WHITE, DARK_GRAY);
 	gotoxy(98, 34);
 	cout << "╔══════════════════════════╗";
 	gotoxy(98, 35);
@@ -100,60 +100,60 @@ void SetGameInterface(Player players[2], Dice dice, int round) {
 	gotoxy(98, 39);
 	cout << "╚══════════════════════════╝";
 
-	SetColor(WHITE, BLACK);
+	setColor(WHITE, BLACK);
 	for (int i = 0; i < 6; i++) {
 		gotoxy(40, 14 + i);
-		if (players[0].GetRank(i) == -1) cout << "--";
-		else cout << players[0].GetRank(i);
+		if (players[0].getRank(i) == -1) cout << "--";
+		else cout << players[0].getRank(i);
 		gotoxy(75, 14 + i);
-		if (players[1].GetRank(i) == -1) cout << "--";
-		else cout << players[1].GetRank(i);
+		if (players[1].getRank(i) == -1) cout << "--";
+		else cout << players[1].getRank(i);
 
 	}	// 1~6
 
 	gotoxy(40, 20); // subtotal
 
-	if (players[0].GetRank(13) >= 63) SetColor(GREEN, BLACK);
-	else SetColor(RED, BLACK);
-	cout << players[0].GetRank(13) << " / 63";
+	if (players[0].getRank(13) >= 63) setColor(GREEN, BLACK);
+	else setColor(RED, BLACK);
+	cout << players[0].getRank(13) << " / 63";
 	gotoxy(75, 20);
-	if (players[1].GetRank(13) >= 63) SetColor(GREEN, BLACK);
-	else SetColor(RED, BLACK);
-	cout << players[1].GetRank(13) << " / 63";
+	if (players[1].getRank(13) >= 63) setColor(GREEN, BLACK);
+	else setColor(RED, BLACK);
+	cout << players[1].getRank(13) << " / 63";
 
 	gotoxy(40, 21); // bonus
-	if (players[0].GetRank(13) >= 63) {
-		SetColor(SKYBLUE, BLACK);
+	if (players[0].getRank(13) >= 63) {
+		setColor(SKYBLUE, BLACK);
 		cout << "+ 35";
 	}
 	else {
-		SetColor(DARK_GRAY, BLACK);
+		setColor(DARK_GRAY, BLACK);
 		cout << "+ 35";
 	}
 	gotoxy(75, 21);
-	if (players[1].GetRank(13) >= 63) {
-		SetColor(SKYBLUE, BLACK);
+	if (players[1].getRank(13) >= 63) {
+		setColor(SKYBLUE, BLACK);
 		cout << "+ 35";
 	}
 	else {
-		SetColor(DARK_GRAY, BLACK);
+		setColor(DARK_GRAY, BLACK);
 		cout << "+ 35";
 	}
-	SetColor(WHITE, BLACK);
+	setColor(WHITE, BLACK);
 
 	for (int i = 6; i < 13; i++) {
 		gotoxy(40, 16 + i);
-		if (players[0].GetRank(i) == -1) cout << "--";
-		else cout << players[0].GetRank(i);
+		if (players[0].getRank(i) == -1) cout << "--";
+		else cout << players[0].getRank(i);
 		gotoxy(75, 16 + i);
-		if (players[1].GetRank(i) == -1) cout << "--";
-		else cout << players[1].GetRank(i);
+		if (players[1].getRank(i) == -1) cout << "--";
+		else cout << players[1].getRank(i);
 	} // other ranks
 
 	gotoxy(40, 29);
-	cout << players[0].GetRank(15);
+	cout << players[0].getRank(15);
 	gotoxy(75, 29);
-	cout << players[1].GetRank(15);
+	cout << players[1].getRank(15);
 
 
 }
@@ -174,20 +174,20 @@ int game(int game_type) {
 			gotoxy(45, 5);
 			cout << "Name of Player " << (i + 1) << ": ";
 			cin >> player_name;
-			players[i].SetPlayer(i, player_name);
+			players[i].setPlayer(i, player_name);
 		}
 
 	for (int round = 1; round <= 26; round++) { // odd round : 1p, even round : 2p
 		Dice* dice = new Dice();
 
-		SetGameInterface(players, *dice, round);
+		setGameInterface(players, *dice, round);
 		cin.clear();
 		for (int attempt = 3; attempt > 0; attempt--) {
 			int idx = 0;
 			int c = 0;
 			bool nf = false; // raise when enter key is pressed 
-			dice->PrintfrozenDice();
-			dice->RollDice();
+			dice->printFrozenDice();
+			dice->rollDice();
 			cin.clear();
 			gotoxy(51, 4);
 			cout << attempt - 1 << " reload(s) left";
@@ -222,11 +222,11 @@ int game(int game_type) {
 							cout << "↓";
 							break;
 						case KEY_UP:
-							dice->SetDiceChangeable(idx, false);
+							dice->setDiceChangeable(idx, false);
 							cin.clear();
 							break;
 						case KEY_DOWN:
-							dice->SetDiceChangeable(idx, true);
+							dice->setDiceChangeable(idx, true);
 							cin.clear();
 							break;
 						default:
@@ -238,7 +238,7 @@ int game(int game_type) {
 						nf = true;
 						gotoxy(50 + 5 * idx, 10);
 						cout << " ";
-						for (int i = 0; i < 5; i++) if (!dice->isDiceChangeable(i)) dice->SetDiceFrozen(i);
+						for (int i = 0; i < 5; i++) if (!dice->isDiceChangeable(i)) dice->setDiceFrozen(i);
 					}
 
 				}
@@ -247,7 +247,7 @@ int game(int game_type) {
 
 		for (int i = 0; i < 5; i++) {
 			if (dice->isDiceChangeable(i)) {
-				dice->SetDiceChangeable(i, false);
+				dice->setDiceChangeable(i, false);
 			}
 		}
 
@@ -258,11 +258,11 @@ int game(int game_type) {
 		cout << "    Select the rank to score   ";
 
 
-		ScoreHelp();
+		scoreHelp();
 
 		int idx = 0, c = 0, arrow_x;
 		bool nf = false; // raise when enter key is pressed 
-		while (players[(round + 1) % 2].GetRank(idx) != -1) idx++;
+		while (players[(round + 1) % 2].getRank(idx) != -1) idx++;
 
 		if (round % 2 == 1) arrow_x = 38;
 		else arrow_x = 78;
@@ -279,7 +279,7 @@ int game(int game_type) {
 						do {
 							if (idx == 0) idx = 12;
 							else idx--;
-						} while (players[(round + 1) % 2].GetRank(idx) != -1);
+						} while (players[(round + 1) % 2].getRank(idx) != -1);
 
 
 						if (idx <= 5) gotoxy(arrow_x, 14 + idx);
@@ -295,7 +295,7 @@ int game(int game_type) {
 						do {
 							if (idx == 12) idx = 0;
 							else idx++;
-						} while (players[(round + 1) % 2].GetRank(idx) != -1);
+						} while (players[(round + 1) % 2].getRank(idx) != -1);
 
 						if (idx <= 5) gotoxy(arrow_x, 14 + idx);
 						else gotoxy(arrow_x, 16 + idx);
@@ -315,13 +315,13 @@ int game(int game_type) {
 
 			}
 		}
-		players[(round + 1) % 2].SetRank(idx, dice->GetDiceRank(idx));
+		players[(round + 1) % 2].setRank(idx, dice->getDiceRank(idx));
 		delete dice;
 	}
 	for (int i = 4; i < 8; i++) clearY(i);
 	gotoxy(48, 4);
-	if (players[0].GetRank(15) > players[1].GetRank(15)) cout << players[0].GetName() << " Win!!                      ";
-	else if (players[0].GetRank(15) < players[1].GetRank(15)) cout << players[1].GetName() << " Win!!                   ";
+	if (players[0].getRank(15) > players[1].getRank(15)) cout << players[0].getName() << " Win!!                      ";
+	else if (players[0].getRank(15) < players[1].getRank(15)) cout << players[1].getName() << " Win!!                   ";
 	else cout << "What!!!!!! nani D R A W zzzz";
 
 
@@ -352,12 +352,12 @@ int game(int game_type) {
 		ZeroMemory((void*)&buf, BUFSIZE);
 
 		if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
-			ErrorHandling("WSAStartup() error!");
+			errorHandling("WSAStartup() error!");
 
 		serverSock = socket(PF_INET, SOCK_STREAM, 0);
 
 		if (serverSock == INVALID_SOCKET)
-			ErrorHandling("socket() error");
+			errorHandling("socket() error");
 
 		gotoxy(45, 5);
 		cout << "Host IP: ";
@@ -367,16 +367,16 @@ int game(int game_type) {
 		serverAddr.sin_family = AF_INET;
 		serverAddr.sin_port = htons(PORT);
 		if (InetPton(AF_INET, serverIP, &serverAddr.sin_addr) != 1)
-			ErrorHandling("Cannot Convert IP address");
+			errorHandling("Cannot Convert IP address");
 		
 		if (connect(serverSock, (const sockaddr*)&serverAddr, sizeof(serverAddr)) == INVALID_SOCKET)
-			ErrorHandling("connect() error");
+			errorHandling("connect() error");
 
 
 		checkByte = recv(serverSock, buf, BUFSIZE - 1 , 0);
 		
 		if (checkByte == SOCKET_ERROR)
-			ErrorHandling("recv() error");
+			errorHandling("recv() error");
 		else if (checkByte >= 0) {
 			
 				buf[checkByte] = '\0';
@@ -390,36 +390,36 @@ int game(int game_type) {
 
 		checkByte = send(serverSock, player_name.c_str(), BUFSIZE - 1, 0);
 		if (checkByte == SOCKET_ERROR)
-			ErrorHandling("send() error");
+			errorHandling("send() error");
 
 		if (usr_idx==0){
 			
-			players[0].SetPlayer(0, player_name);
+			players[0].setPlayer(0, player_name);
 			checkByte = recv(serverSock, buf, BUFSIZE - 1 , 0);
 			if (checkByte == SOCKET_ERROR)
-				ErrorHandling("recv() error");
+				errorHandling("recv() error");
 			else if (checkByte >= 0) {
 				buf[checkByte] = '\0';
 			}
-			players[1].SetPlayer(1, string(buf));
+			players[1].setPlayer(1, string(buf));
 
 			
 		}
 		else if (usr_idx == 1){
-			players[1].SetPlayer(1, player_name);
+			players[1].setPlayer(1, player_name);
 			checkByte = recv(serverSock, buf, BUFSIZE - 1 , 0);
 			if (checkByte == SOCKET_ERROR)
-				ErrorHandling("recv() error");
+				errorHandling("recv() error");
 			else if (checkByte >= 0) {
 				buf[checkByte] = '\0';
 			}
-			players[0].SetPlayer(0, string(buf));
+			players[0].setPlayer(0, string(buf));
 		}
 		
 		for (int round = 1; round <= 26; round++) { // odd round : 1p, even round : 2p
 			Dice* dice = new Dice();
 			ZeroMemory((void*)&buf, BUFSIZE - 1);
-			SetGameInterface(players, *dice, round);
+			setGameInterface(players, *dice, round);
 			cin.clear();
 			
 			if((round+1)%2 == usr_idx){ // this player's turn
@@ -428,7 +428,7 @@ int game(int game_type) {
 					int c = 0;
 					bool nf = false; // raise when enter key is pressed 
 					
-					dice->RollDice(serverSock);
+					dice->rollDice(serverSock);
 					
 					cin.clear();
 					gotoxy(51, 4);
@@ -464,11 +464,11 @@ int game(int game_type) {
 									cout << "↓";
 									break;
 								case KEY_UP:
-									dice->SetDiceChangeable(idx, false);
+									dice->setDiceChangeable(idx, false);
 									cin.clear();
 									break;
 								case KEY_DOWN:
-									dice->SetDiceChangeable(idx, true);
+									dice->setDiceChangeable(idx, true);
 									cin.clear();
 									break;
 								default:
@@ -482,20 +482,20 @@ int game(int game_type) {
 								cout << " ";
 								for (int i = 0; i < 5; i++) { 
 									if (!dice->isDiceChangeable(i)) 
-										dice->SetDiceFrozen(i);
+										dice->setDiceFrozen(i);
 									buf[i] = dice->isDiceFrozen(i);
 
 									if (attempt == 0){
-										dice->SetDiceFrozen(i);
+										dice->setDiceFrozen(i);
 										buf[i] = 1;
 									}
 									
-									buf[5 + i] = (char)dice->GetFrozenIdx(i);
+									buf[5 + i] = (char)dice->getFrozenIdx(i);
 								}
 
 								checkByte = send(serverSock, buf, BUFSIZE - 1 , 0);
 								if (checkByte == SOCKET_ERROR)
-									ErrorHandling("send() error");
+									errorHandling("send() error");
 								ZeroMemory((void*)&buf, BUFSIZE - 1);
 
 							}
@@ -506,7 +506,7 @@ int game(int game_type) {
 
 				for (int i = 0; i < 5; i++) {
 					if (dice->isDiceChangeable(i)) {
-						dice->SetDiceChangeable(i, false);
+						dice->setDiceChangeable(i, false);
 					}
 				}
 
@@ -517,11 +517,11 @@ int game(int game_type) {
 				cout << "    Select the rank to score   ";
 
 
-				ScoreHelp();
+				scoreHelp();
 
 				int idx = 0, c = 0, arrow_x;
 				bool nf = false; // raise when enter key is pressed 
-				while (players[(round + 1) % 2].GetRank(idx) != -1) idx++;
+				while (players[(round + 1) % 2].getRank(idx) != -1) idx++;
 
 				if (round % 2 == 1) arrow_x = 38;
 				else arrow_x = 78;
@@ -538,7 +538,7 @@ int game(int game_type) {
 								do {
 									if (idx == 0) idx = 12;
 									else idx--;
-								} while (players[(round + 1) % 2].GetRank(idx) != -1);
+								} while (players[(round + 1) % 2].getRank(idx) != -1);
 
 
 								if (idx <= 5) gotoxy(arrow_x, 14 + idx);
@@ -554,7 +554,7 @@ int game(int game_type) {
 								do {
 									if (idx == 12) idx = 0;
 									else idx++;
-								} while (players[(round + 1) % 2].GetRank(idx) != -1);
+								} while (players[(round + 1) % 2].getRank(idx) != -1);
 
 								if (idx <= 5) gotoxy(arrow_x, 14 + idx);
 								else gotoxy(arrow_x, 16 + idx);
@@ -574,12 +574,12 @@ int game(int game_type) {
 					}
 				}
 				buf[sizeof(int) * 0] = idx; // pack idx
-				buf[sizeof(int) * 1] = dice->GetDiceRank(idx); // pack score
+				buf[sizeof(int) * 1] = dice->getDiceRank(idx); // pack score
 				checkByte = send(serverSock, buf, BUFSIZE - 1, 0);
 				if (checkByte != BUFSIZE - 1)
-					ErrorHandling("send() error");
+					errorHandling("send() error");
 
-				players[(round + 1) % 2].SetRank(idx, dice->GetDiceRank(idx));
+				players[(round + 1) % 2].setRank(idx, dice->getDiceRank(idx));
 				delete dice;
 			}
 			else { // other player's turn
@@ -591,12 +591,12 @@ int game(int game_type) {
 					
 					checkByte = recv(serverSock, buf, BUFSIZE - 1 , 0);
 					if (checkByte == SOCKET_ERROR)
-						ErrorHandling("recv() error");
+						errorHandling("recv() error");
 					else if (checkByte >= 0) {
 						buf[checkByte] = '\0';
 					}
-					dice->PrintfrozenDice();
-					dice->RollDice(buf);
+					dice->printFrozenDice();
+					dice->rollDice(buf);
 					gotoxy(43, 5);
 					cout << "The other player is Freezing Dices";
 					gotoxy(51, 4);
@@ -604,15 +604,15 @@ int game(int game_type) {
 					ZeroMemory((void*)&buf, BUFSIZE - 1);
 					checkByte = recv(serverSock, buf, BUFSIZE - 1 , 0); 
 					if (checkByte == SOCKET_ERROR)
-						ErrorHandling("recv() error");
+						errorHandling("recv() error");
 					else if (checkByte >= 0) {
 						buf[checkByte] = '\0';
 					}
 					for (int i = 0; i < 5; i++) {
 						for (int j = 0; j < 5; j++) {
 							if (buf[j + 5] == i) {
-								dice->SetDiceChangeable(j, false);
-								dice->SetDiceFrozen(j);
+								dice->setDiceChangeable(j, false);
+								dice->setDiceFrozen(j);
 								gotoxy(50 + 5 * j, 11);
 								cout << " ";
 							}
@@ -626,16 +626,16 @@ int game(int game_type) {
 				ZeroMemory((void*)&buf, BUFSIZE - 1);
 				checkByte = recv(serverSock, buf, BUFSIZE - 1, 0);
 				if (checkByte == SOCKET_ERROR)
-					ErrorHandling("recv() error");
+					errorHandling("recv() error");
 				else if (checkByte >= 0) {
 					buf[checkByte] = '\0';
 				}
 
 				if (usr_idx == 0) {
-					players[1].SetRank(buf[0], buf[1 * sizeof(int)]);
+					players[1].setRank(buf[0], buf[1 * sizeof(int)]);
 				}
 				else {
-					players[0].SetRank(buf[0], buf[1 * sizeof(int)]);
+					players[0].setRank(buf[0], buf[1 * sizeof(int)]);
 				}
 				
 			}
@@ -645,8 +645,8 @@ int game(int game_type) {
 		}
 		for (int i = 4; i < 8; i++) clearY(i);
 		gotoxy(48, 4);
-		if (players[0].GetRank(15) > players[1].GetRank(15)) cout << players[0].GetName() << " Win!!                      ";
-		else if (players[0].GetRank(15) < players[1].GetRank(15)) cout << players[1].GetName() << " Win!!                   ";
+		if (players[0].getRank(15) > players[1].getRank(15)) cout << players[0].getName() << " Win!!                      ";
+		else if (players[0].getRank(15) < players[1].getRank(15)) cout << players[1].getName() << " Win!!                   ";
 		else cout << "What!!!!!! nani D R A W zzzz";
 
 
@@ -662,7 +662,7 @@ int game(int game_type) {
 
 		checkByte = send(serverSock, "", BUFSIZE - 1, 0);
 		if (checkByte == SOCKET_ERROR)
-			ErrorHandling("send() error");
+			errorHandling("send() error");
 
 		closesocket(serverSock);
 		WSACleanup();

@@ -1,13 +1,13 @@
 #include "player.h"
 
-void Player::SetPlayer(int idx, string name) {
+void Player::setPlayer(int idx, string name) {
 	_idx = idx;
 	_name = name;
 	if (_name == "Player") _name += (" " + to_string(idx));
 
 }
 
-void Player::SetRank(int idx, int score) {
+void Player::setRank(int idx, int score) {
 	_score[idx] = score;
 	if (idx <= 5) _score[13] += score;
 	_score[15] += score;
@@ -21,11 +21,11 @@ void Player::SetRank(int idx, int score) {
 
 
 }
-string Player::GetName() {
+string Player::getName() {
 	return _name;
 
 }
-int Player::GetRank(int idx) {
+int Player::getRank(int idx) {
 	if (idx < 0 || idx > 15) return -1;
 	int score = _score[idx];
 	return score;

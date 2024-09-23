@@ -8,5 +8,5 @@
 #define BUFSIZE 32
 
 using namespace std;
-void ErrorHandling(const char* message);
+void errorHandling(const char* message);
 #endif

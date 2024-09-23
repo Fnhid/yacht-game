@@ -1,16 +1,16 @@
 #include "dice.h"
 
 
-int Dice::GetFrozenIdx(int idx) {
+int Dice::getFrozenIdx(int idx) {
 	if (_frozenIdx[idx] == -1) return 9;
 	return _frozenIdx[idx];
 }
 
-int Dice::GetFrozenValue(int idx) {
+int Dice::getFrozenValue(int idx) {
 	return _frozenValue[idx];
 }
 
-void Dice::RollDice() { // for local game
+void Dice::rollDice() { // for local game
 	random_device rd;
 	mt19937 mt(rd()); // for stable random
 	srand(static_cast<unsigned int> (time(NULL))); // for animation random
@@ -36,7 +36,7 @@ void Dice::RollDice() { // for local game
 	}
 
 
-	SetColor(WHITE, BLACK);
+	setColor(WHITE, BLACK);
 	for (int k = 0; k < 5; k++) {
 		for (int i = 0; i < 20; i++) {
 			for (int j = k; j < 5; j++) {
@@ -54,7 +54,7 @@ void Dice::RollDice() { // for local game
 	}
 }
 
-void Dice::RollDice(SOCKET &serverSock) { // for on-turn user
+void Dice::rollDice(SOCKET &serverSock) { // for on-turn user
 	random_device rd;
 	mt19937 mt(rd()); // for stable random
 	srand(static_cast<unsigned int> (time(NULL))); // for animation random
@@ -87,9 +87,9 @@ void Dice::RollDice(SOCKET &serverSock) { // for on-turn user
 	checkByte = send(serverSock, buf, BUFSIZE - 1, 0);
 
 	if (checkByte == SOCKET_ERROR)
-		ErrorHandling("send() error");
+		errorHandling("send() error");
 
-	SetColor(WHITE, BLACK);
+	setColor(WHITE, BLACK);
 	for (int k = 0; k < 5; k++) {
 		for (int i = 0; i < 20; i++) {
 			for (int j = k; j < 5; j++) {
@@ -107,12 +107,12 @@ void Dice::RollDice(SOCKET &serverSock) { // for on-turn user
 	}
 }
 
-void Dice::RollDice(char val[BUFSIZE]) { // for non-turn user
+void Dice::rollDice(char val[BUFSIZE]) { // for non-turn user
 	srand(static_cast<unsigned int> (time(NULL))); // for animation random
 	int tmp, c = 0;
 	for (int k = 0; k < 5; k++)
 
-	SetColor(WHITE, BLACK);
+	setColor(WHITE, BLACK);
 	for (int k = 0; k < 5; k++) {
 		_value[k] = val[k];
 		for (int i = 0; i < 20; i++) {
@@ -134,7 +134,7 @@ void Dice::RollDice(char val[BUFSIZE]) { // for non-turn user
 bool Dice::isDiceFrozen(int idx) {
 	return _isFrozen[idx];
 }
-void Dice::SetDiceFrozen(int idx) {
+void Dice::setDiceFrozen(int idx) {
 	_isFrozen[idx] = true;
 }
 
@@ -142,8 +142,8 @@ bool Dice::isDiceChangeable(int idx) {
 	return _isChangeable[idx];
 }
 
-void Dice::PrintfrozenDice() {
-	SetColor(WHITE, BLACK);
+void Dice::printFrozenDice() {
+	setColor(WHITE, BLACK);
 	auto iter = _frozenValue.begin();
 
 	for (int i = 0; i < 5; i++) {
@@ -162,12 +162,12 @@ void Dice::PrintfrozenDice() {
 	}
 }
 
-bool Dice::SetDiceChangeable(int idx, bool setState) {
+bool Dice::setDiceChangeable(int idx, bool setState) {
 	if (setState) {
 		if (_isChangeable[idx] == false) {
 			_isChangeable[idx] = true;
 			gotoxy(50 + 5 * idx, 11);
-			SetColor(WHITE, BLACK);
+			setColor(WHITE, BLACK);
 			cout << _value[idx];
 			_frozenValue.erase(_frozenValue.begin() + _frozenIdx[idx]);
 			_frozenIdx[idx] = -1;
@@ -183,7 +183,7 @@ bool Dice::SetDiceChangeable(int idx, bool setState) {
 					}
 				}
 			}
-			PrintfrozenDice();
+			printFrozenDice();
 		}
 		else return false;
 	}
@@ -191,22 +191,22 @@ bool Dice::SetDiceChangeable(int idx, bool setState) {
 		if (_isChangeable[idx] == true) {
 			_isChangeable[idx] = false;
 			gotoxy(50 + 5 * idx, 11);
-			SetColor(DARK_GRAY, BLACK);
+			setColor(DARK_GRAY, BLACK);
 			cout << _value[idx];
 			_frozenIdx[idx] = _frozenValue.size();
 			_frozenValue.push_back(_value[idx]);
-			PrintfrozenDice();
+			printFrozenDice();
 		}
 		else return false;
 	}
-	SetColor(WHITE, BLACK);
+	setColor(WHITE, BLACK);
 	return true;
 }
-int Dice::GetDiceValue(int idx) {
+int Dice::getDiceValue(int idx) {
 	return _value[idx];
 }
 
-int Dice::GetDiceRank(int idx) {
+int Dice::getDiceRank(int idx) {
 	int score = 0, val_arr[6] = {};
 	bool f, f2, f3;
 	for (int i : _frozenValue) val_arr[i - 1]++;

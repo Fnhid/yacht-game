@@ -18,15 +18,10 @@ using namespace std;
 #define BUFSIZE 32
 
 int main();
-void AcceptClients(int i);
-void PrepareClients(int i);
-void GameClients(int i);
-void InitServer();
-void ErrorHandling(const char* e);
-
-typedef struct {
-	int type;
-	int info[5];
-} sockData;
+void acceptClients(int i);
+void prepareClients(int i);
+void gameClients(int i);
+void initServer();
+void errorHandling(const char* e);
 
 #endif

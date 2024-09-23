@@ -20,10 +20,10 @@ private:
     // 15 is total.
 
 public:
-    void SetPlayer(int idx, string name);
-    void SetRank(int idx, int score);
-    int GetRank(int idx);
-    string GetName();
+    void setPlayer(int idx, string name);
+    void setRank(int idx, int score);
+    int getRank(int idx);
+    string getName();
 };
 
 #endif

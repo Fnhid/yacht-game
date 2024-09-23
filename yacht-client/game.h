@@ -19,8 +19,8 @@
 
 #pragma comment(lib, "ws2_32")
 
-void ScoreHelp();
-void SetGameInterface(Player players[2], Dice dice, int round);
+void scoreHelp();
+void setGameInterface(Player players[2], Dice dice, int round);
 int game(int game_type);
 void gotoxy(int x, int y);
 

@@ -1,6 +1,6 @@
 #include "interface.h"
 
-void SetColor(Color text, Color back) {
+void setColor(Color text, Color back) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), text | (back << 4));
 }
 

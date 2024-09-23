@@ -37,16 +37,16 @@ private:
 public:
     bool isDiceChangeable(int idx);
     bool isDiceFrozen(int idx);
-    void SetDiceFrozen(int idx);
-    int GetDiceValue(int idx);
-    int GetFrozenValue(int idx);
-    int GetFrozenIdx(int idx);
-    void RollDice(); // for local game
-    void RollDice(SOCKET& serverSock); // for turn user
-    void RollDice(char val[BUFSIZE]); // for non-turn user
-    bool SetDiceChangeable(int idx, bool setState);
-    int GetDiceRank(int idx);
-    void PrintfrozenDice();
+    void setDiceFrozen(int idx);
+    int getDiceValue(int idx);
+    int getFrozenValue(int idx);
+    int getFrozenIdx(int idx);
+    void rollDice(); // for local game
+    void rollDice(SOCKET& serverSock); // for turn user
+    void rollDice(char val[BUFSIZE]); // for non-turn user
+    bool setDiceChangeable(int idx, bool setState);
+    int getDiceRank(int idx);
+    void printFrozenDice();
 };
 
 

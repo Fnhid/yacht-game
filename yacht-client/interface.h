@@ -29,6 +29,6 @@ enum Color {
     WHITE,
 };
 void gotoxy(int x, int y);
-void SetColor(Color text, Color back);
+void setColor(Color text, Color back);
 void clearY(int x);
 #endif // !INTERFACE_H
