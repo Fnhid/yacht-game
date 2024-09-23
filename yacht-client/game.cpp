@@ -222,11 +222,11 @@ int game(int game_type) {
 							cout << "↓";
 							break;
 						case KEY_UP:
-							dice->setDiceChangeable(idx, false);
+							dice->setDiceUnchangeable(idx);
 							cin.clear();
 							break;
 						case KEY_DOWN:
-							dice->setDiceChangeable(idx, true);
+							dice->setDiceChangeable(idx);
 							cin.clear();
 							break;
 						default:
@@ -247,7 +247,7 @@ int game(int game_type) {
 
 		for (int i = 0; i < 5; i++) {
 			if (dice->isDiceChangeable(i)) {
-				dice->setDiceChangeable(i, false);
+				dice->setDiceUnchangeable(i);
 			}
 		}
 
@@ -464,11 +464,11 @@ int game(int game_type) {
 									cout << "↓";
 									break;
 								case KEY_UP:
-									dice->setDiceChangeable(idx, false);
+									dice->setDiceUnchangeable(idx);
 									cin.clear();
 									break;
 								case KEY_DOWN:
-									dice->setDiceChangeable(idx, true);
+									dice->setDiceChangeable(idx);
 									cin.clear();
 									break;
 								default:
@@ -506,7 +506,7 @@ int game(int game_type) {
 
 				for (int i = 0; i < 5; i++) {
 					if (dice->isDiceChangeable(i)) {
-						dice->setDiceChangeable(i, false);
+						dice->setDiceUnchangeable(i);
 					}
 				}
 
@@ -611,7 +611,7 @@ int game(int game_type) {
 					for (int i = 0; i < 5; i++) {
 						for (int j = 0; j < 5; j++) {
 							if (buf[j + 5] == i) {
-								dice->setDiceChangeable(j, false);
+								dice->setDiceUnchangeable(j);
 								dice->setDiceFrozen(j);
 								gotoxy(50 + 5 * j, 11);
 								cout << " ";

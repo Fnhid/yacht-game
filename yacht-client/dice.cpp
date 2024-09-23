@@ -162,46 +162,48 @@ void Dice::printFrozenDice() {
 	}
 }
 
-bool Dice::setDiceChangeable(int idx, bool setState) {
-	if (setState) {
-		if (_isChangeable[idx] == false) {
-			_isChangeable[idx] = true;
-			gotoxy(50 + 5 * idx, 11);
-			setColor(WHITE, BLACK);
-			cout << _value[idx];
-			_frozenValue.erase(_frozenValue.begin() + _frozenIdx[idx]);
-			_frozenIdx[idx] = -1;
-			int frozenIdxCopy[5];
-			int rank = 0;
-			copy(begin(_frozenIdx), end(_frozenIdx), begin(frozenIdxCopy));
-			for (int i = 0; i < 5; i++) {
-				for (int j = 0; j < 5; j++) {
-					if (frozenIdxCopy[j] == i) {
-						_frozenIdx[j] = rank;
-						rank++;
-						break;
-					}
+bool Dice::setDiceChangeable(int idx) {
+	if (_isChangeable[idx] == false) {
+		_isChangeable[idx] = true;
+		gotoxy(50 + 5 * idx, 11);
+		setColor(WHITE, BLACK);
+		cout << _value[idx];
+		_frozenValue.erase(_frozenValue.begin() + _frozenIdx[idx]);
+		_frozenIdx[idx] = -1;
+		int frozenIdxCopy[5];
+		int rank = 0;
+		copy(begin(_frozenIdx), end(_frozenIdx), begin(frozenIdxCopy));
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				if (frozenIdxCopy[j] == i) {
+					_frozenIdx[j] = rank;
+					rank++;
+					break;
 				}
 			}
-			printFrozenDice();
 		}
-		else return false;
+		printFrozenDice();
 	}
-	else {
-		if (_isChangeable[idx] == true) {
-			_isChangeable[idx] = false;
-			gotoxy(50 + 5 * idx, 11);
-			setColor(DARK_GRAY, BLACK);
-			cout << _value[idx];
-			_frozenIdx[idx] = _frozenValue.size();
-			_frozenValue.push_back(_value[idx]);
-			printFrozenDice();
-		}
-		else return false;
-	}
+	else return false;
+
+		
 	setColor(WHITE, BLACK);
 	return true;
 }
+
+bool Dice::setDiceUnchangeable(int idx) {
+	if (_isChangeable[idx] == true) {
+		_isChangeable[idx] = false;
+		gotoxy(50 + 5 * idx, 11);
+		setColor(DARK_GRAY, BLACK);
+		cout << _value[idx];
+		_frozenIdx[idx] = _frozenValue.size();
+		_frozenValue.push_back(_value[idx]);
+		printFrozenDice();
+	}
+	else return false;
+}
+
 int Dice::getDiceValue(int idx) {
 	return _value[idx];
 }

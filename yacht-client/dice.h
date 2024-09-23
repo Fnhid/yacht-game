@@ -44,7 +44,8 @@ public:
     void rollDice(); // for local game
     void rollDice(SOCKET& serverSock); // for turn user
     void rollDice(char val[BUFSIZE]); // for non-turn user
-    bool setDiceChangeable(int idx, bool setState);
+    bool setDiceChangeable(int idx);
+    bool setDiceUnchangeable(int idx);
     int getDiceRank(int idx);
     void printFrozenDice();
 };
