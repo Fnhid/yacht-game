@@ -202,6 +202,10 @@ bool Dice::setDiceUnchangeable(int idx) {
 		printFrozenDice();
 	}
 	else return false;
+
+
+	setColor(WHITE, BLACK);
+	return true;
 }
 
 int Dice::getDiceValue(int idx) {
